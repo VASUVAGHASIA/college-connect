@@ -5,6 +5,12 @@ import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCooki
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
 
+const isInstituteEmail = (email) => {
+	// Define allowed institute domains
+	const allowedDomains = ["charusat.edu.in", "charusat.ac.in", "charusat.org"]; // Add more as needed
+	const emailDomain = email.split("@")[1];
+	return allowedDomains.includes(emailDomain);
+};
 const getUserProfile = async (req, res) => {
 	// We will fetch user profile either with username or userId
 	// query is either username or userId
@@ -33,6 +39,9 @@ const getUserProfile = async (req, res) => {
 const signupUser = async (req, res) => {
 	try {
 		const { name, email, username, password } = req.body;
+		if (!isInstituteEmail(email)) {
+			return res.status(400).json({ error: "Enter a valid institute ID" });
+		}
 		const user = await User.findOne({ $or: [{ email }, { username }] });
 
 		if (user) {
@@ -59,6 +68,7 @@ const signupUser = async (req, res) => {
 				username: newUser.username,
 				bio: newUser.bio,
 				profilePic: newUser.profilePic,
+				
 			});
 		} else {
 			res.status(400).json({ error: "Invalid user data" });
@@ -239,6 +249,28 @@ const freezeAccount = async (req, res) => {
 	}
 };
 
+const searchUsers = async (req, res) => {
+	try {
+		const { query } = req.query; // Get search query from request
+
+		if (!query) return res.status(400).json({ error: "Search query is required" });
+		console.log(query);
+		
+		// Find users whose name or username matches the query (case-insensitive)
+		const users = await User.find({
+			$or: [
+				{ name: { $regex: query, $options: "i" } }, // Partial name match
+				{ username: { $regex: query, $options: "i" } } // Partial username match
+			],
+		}).select("-password");
+
+		res.status(200).json(users);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+
+
 export {
 	signupUser,
 	loginUser,
@@ -248,4 +280,5 @@ export {
 	getUserProfile,
 	getSuggestedUsers,
 	freezeAccount,
+	searchUsers
 };

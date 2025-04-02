@@ -30,7 +30,7 @@ const Conversation = ({ conversation, isOnline }) => {
 			p={"1"}
 			_hover={{
 				cursor: "pointer",
-				bg: useColorModeValue("gray.600", "gray.dark"),
+				bg: useColorModeValue("gray.600", "blue.900"),
 				color: "white",
 			}}
 			onClick={() =>
@@ -43,7 +43,7 @@ const Conversation = ({ conversation, isOnline }) => {
 				})
 			}
 			bg={
-				selectedConversation?._id === conversation._id ? (colorMode === "light" ? "gray.400" : "gray.dark") : ""
+				selectedConversation?._id === conversation._id ? (colorMode === "dark" ? "gray.500" : "gray.500") : ""
 			}
 			borderRadius={"md"}
 		>
@@ -62,7 +62,8 @@ const Conversation = ({ conversation, isOnline }) => {
 
 			<Stack direction={"column"} fontSize={"sm"}>
 				<Text fontWeight='700' display={"flex"} alignItems={"center"}>
-					{user.username} <Image src='/verified.png' w={4} h={4} ml={1} />
+					{user.username} 
+					{/* <Image src='/verified.png' w={4} h={4} ml={1} /> */}
 				</Text>
 				<Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
 					{currentUser._id === lastMessage.sender ? (

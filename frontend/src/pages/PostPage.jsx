@@ -78,7 +78,7 @@ const PostPage = () => {
 						<Text fontSize={"sm"} fontWeight={"bold"}>
 							{user.username}
 						</Text>
-						<Image src='/verified.png' w='4' h={4} ml={4} />
+						{/* <Image src='/verified.png' w='4' h={4} ml={4} /> */}
 					</Flex>
 				</Flex>
 				<Flex gap={4} alignItems={"center"}>
@@ -106,13 +106,13 @@ const PostPage = () => {
 
 			<Divider my={4} />
 
-			<Flex justifyContent={"space-between"}>
+			{/* <Flex justifyContent={"space-between"}>
 				<Flex gap={2} alignItems={"center"}>
 					<Text fontSize={"2xl"}>👋</Text>
 					<Text color={"gray.light"}>Get the app to like, reply and post.</Text>
 				</Flex>
 				<Button>Get</Button>
-			</Flex>
+			</Flex> */}
 
 			<Divider my={4} />
 			{currentPost.replies.map((reply) => (
